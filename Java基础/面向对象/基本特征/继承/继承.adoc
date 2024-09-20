@@ -1,0 +1,53 @@
+继承是面向对象编程的基本特征之一，它允许一个类继承另一个类的属性和方法。以下是一个简单的 Java 示例，展示了如何使用继承：
+
+首先，定义一个父类 `Animal`：
+
+```java
+public class Animal {
+    private String name;
+
+    public Animal(String name) {
+        this.name = name;
+    }
+
+    public void eat() {
+        System.out.println(name + " is eating.");
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+```
+
+然后，定义一个子类 `Dog`，继承自 `Animal`：
+
+```java
+public class Dog extends Animal {
+    public Dog(String name) {
+        super(name);
+    }
+
+    public void bark() {
+        System.out.println(getName() + " is barking.");
+    }
+}
+```
+
+最后，展示如何使用这些类：
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Dog dog = new Dog("Buddy");
+        dog.eat();  // 继承自 Animal 类的方法
+        dog.bark(); // Dog 类的方法
+    }
+}
+```
+
+在这个示例中，`Dog` 类继承了 `Animal` 类的属性和方法，并且添加了自己的方法 `bark`。

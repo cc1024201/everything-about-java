@@ -1,0 +1,30 @@
+封装是面向对象编程的基本特征之一，它通过将数据和操作数据的方法封装在一起，保护数据不被外部直接访问。以下是一个简单的 Java 示例，展示了如何使用封装：
+
+```java
+public class Person {
+    // 私有属性
+    private String name;
+    private int age;
+
+    // 公共的 getter 和 setter 方法
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        if (age > 0) { // 添加数据验证
+            this.age = age;
+        }
+    }
+}
+```
+
+在这个示例中，`name` 和 `age` 属性被声明为私有的（`private`），只能通过公共的（`public`）getter 和 setter 方法访问和修改。这就是封装的一个基本例子。

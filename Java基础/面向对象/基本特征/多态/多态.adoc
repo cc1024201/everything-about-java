@@ -1,0 +1,45 @@
+多态是面向对象编程的基本特征之一，它允许同一个方法在不同对象中有不同的实现。以下是一个简单的 Java 示例，展示了如何使用多态：
+
+首先，定义一个父类 `Animal`：
+
+```java
+public class Animal {
+    public void makeSound() {
+        System.out.println("Some generic animal sound");
+    }
+}
+```
+
+然后，定义两个子类 `Dog` 和 `Cat`，它们分别继承自 `Animal` 并重写 `makeSound` 方法：
+
+```java
+public class Dog extends Animal {
+    @Override
+    public void makeSound() {
+        System.out.println("Bark");
+    }
+}
+
+public class Cat extends Animal {
+    @Override
+    public void makeSound() {
+        System.out.println("Meow");
+    }
+}
+```
+
+最后，展示如何使用多态：
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Animal myDog = new Dog();
+        Animal myCat = new Cat();
+
+        myDog.makeSound(); // 输出 "Bark"
+        myCat.makeSound(); // 输出 "Meow"
+    }
+}
+```
+
+在这个示例中，`myDog` 和 `myCat` 都是 `Animal` 类型，但它们调用 `makeSound` 方法时，会根据实际对象类型执行相应的方法。
