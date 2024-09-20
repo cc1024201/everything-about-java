@@ -1,0 +1,94 @@
+里氏替换原则（Liskov Substitution Principle, LSP）要求子类对象必须能够替换父类对象，并且程序行为保持不变。以下是一个简单的 Java 示例，展示了如何使用里氏替换原则：
+
+首先，定义一个父类 `Vehicle`，它有一个方法 `startEngine`：
+
+```java
+// Vehicle.java
+public class Vehicle {
+    public void startEngine() {
+        System.out.println("Engine started");
+    }
+}
+```
+
+然后，定义一个子类 `Car`，它继承自 `Vehicle` 并重写了 `startEngine` 方法：
+
+```java
+// Car.java
+public class Car extends Vehicle {
+    @Override
+    public void startEngine() {
+        System.out.println("Car engine started");
+    }
+}
+```
+
+再定义一个子类 `Bicycle`，它继承自 `Vehicle` 但没有引擎，因此重写 `startEngine` 方法以抛出异常：
+
+```java
+// Bicycle.java
+public class Bicycle extends Vehicle {
+    @Override
+    public void startEngine() {
+        throw new UnsupportedOperationException("Bicycle doesn't have an engine");
+    }
+}
+```
+
+为了遵循里氏替换原则，可以通过引入一个新的接口 `EnginePowered` 来解决这个问题：
+
+```java
+// EnginePowered.java
+public interface EnginePowered {
+    void startEngine();
+}
+```
+
+然后修改 `Vehicle` 类和 `Car` 类实现 `EnginePowered` 接口：
+
+```java
+// Vehicle.java
+public class Vehicle {
+    // Vehicle class remains unchanged
+}
+
+// Car.java
+public class Car extends Vehicle implements EnginePowered {
+    @Override
+    public void startEngine() {
+        System.out.println("Car engine started");
+    }
+}
+```
+
+最后，`Bicycle` 类不再重写 `startEngine` 方法：
+
+```java
+// Bicycle.java
+public class Bicycle extends Vehicle {
+    // Bicycle class remains unchanged
+}
+```
+
+这样，`Car` 和 `Bicycle` 都可以替换 `Vehicle`，并且程序行为保持不变。以下是如何使用这些类的示例：
+
+```java
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Vehicle> vehicles = Arrays.asList(new Car(), new Bicycle());
+
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle instanceof EnginePowered) {
+                ((EnginePowered) vehicle).startEngine();
+            } else {
+                System.out.println("This vehicle doesn't have an engine");
+            }
+        }
+    }
+}
+```
+
+在这个示例中，我们创建了 `Car` 和 `Bicycle` 的实例，并将它们添加到一个 `List<Vehicle>` 中。然后，我们遍历这个列表并调用每个车辆的 `startEngine` 方法。如果车辆实现了 `EnginePowered` 接口，我们调用 `startEngine` 方法，否则打印消息。

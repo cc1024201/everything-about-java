@@ -1,0 +1,85 @@
+单一职责原则（Single Responsibility Principle, SRP）要求一个类只负责一个功能领域中的相应职责。以下是一个简单的 Java 示例，展示了如何使用单一职责原则：
+
+首先，定义一个类 `User`，它只负责用户数据的存储：
+
+```java
+public class User {
+    private String name;
+    private String email;
+
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+}
+```
+
+然后，定义一个类 `UserRepository`，它只负责用户数据的持久化：
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class UserRepository {
+    private List<User> users = new ArrayList<>();
+
+    public void addUser(User user) {
+        users.add(user);
+    }
+
+    public List<User> getAllUsers() {
+        return new ArrayList<>(users);
+    }
+}
+```
+
+最后，定义一个类 `UserService`，它只负责用户相关的业务逻辑：
+
+```java
+public class UserService {
+    private UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public void registerUser(String name, String email) {
+        User user = new User(name, email);
+        userRepository.addUser(user);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.getAllUsers();
+    }
+}
+```
+
+在这个示例中，`User` 类负责用户数据，`UserRepository` 类负责数据持久化，`UserService` 类负责业务逻辑，每个类都遵循单一职责原则。
+
+以下是如何使用这些类的示例：
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        UserRepository userRepository = new UserRepository();
+        UserService userService = new UserService(userRepository);
+
+        userService.registerUser("Alice", "alice@example.com");
+        userService.registerUser("Bob", "bob@example.com");
+
+        for (User user : userService.getAllUsers()) {
+            System.out.println("User: " + user.getName() + ", Email: " + user.getEmail());
+        }
+    }
+}
+```
+
+在这个示例中，我们创建了 `UserRepository` 和 `UserService` 的实例，并使用 `UserService` 注册了两个用户。最后，我们遍历所有用户并打印他们的姓名和电子邮件。

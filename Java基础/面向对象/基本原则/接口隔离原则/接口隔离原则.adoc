@@ -1,0 +1,105 @@
+接口隔离原则（Interface Segregation Principle, ISP）要求使用多个专门的接口，而不是一个通用的接口。以下是一个简单的 Java 示例，展示了如何使用接口隔离原则：
+
+首先，定义一个通用的接口 `Worker`，它包含所有的工作方法：
+
+```java
+// Worker.java
+public interface Worker {
+    void work();
+    void eat();
+}
+```
+
+然后，定义两个实现 `Worker` 接口的类 `HumanWorker` 和 `RobotWorker`：
+
+```java
+// HumanWorker.java
+public class HumanWorker implements Worker {
+    @Override
+    public void work() {
+        System.out.println("Human is working");
+    }
+
+    @Override
+    public void eat() {
+        System.out.println("Human is eating");
+    }
+}
+```
+
+```java
+// RobotWorker.java
+public class RobotWorker implements Worker {
+    @Override
+    public void work() {
+        System.out.println("Robot is working");
+    }
+
+    @Override
+    public void eat() {
+        throw new UnsupportedOperationException("Robot doesn't eat");
+    }
+}
+```
+
+在这个示例中，`RobotWorker` 类不需要 `eat` 方法，这违反了接口隔离原则。为了遵循接口隔离原则，可以将 `Worker` 接口拆分为两个更专门的接口 `Workable` 和 `Eatable`：
+
+```java
+// Workable.java
+public interface Workable {
+    void work();
+}
+```
+
+```java
+// Eatable.java
+public interface Eatable {
+    void eat();
+}
+```
+
+然后修改 `HumanWorker` 和 `RobotWorker` 类实现相应的接口：
+
+```java
+// HumanWorker.java
+public class HumanWorker implements Workable, Eatable {
+    @Override
+    public void work() {
+        System.out.println("Human is working");
+    }
+
+    @Override
+    public void eat() {
+        System.out.println("Human is eating");
+    }
+}
+```
+
+```java
+// RobotWorker.java
+public class RobotWorker implements Workable {
+    @Override
+    public void work() {
+        System.out.println("Robot is working");
+    }
+}
+```
+
+这样，每个类只实现它们需要的接口，符合接口隔离原则。以下是如何使用这些类的示例：
+
+```java
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        List<Workable> workers = Arrays.asList(new HumanWorker(), new RobotWorker());
+
+        for (Workable worker : workers) {
+            worker.work();
+        }
+    }
+}
+```
+
+在这个示例中，我们创建了 `HumanWorker` 和 `RobotWorker` 的实例，并将它们添加到一个 `List<Workable>` 中。然后，我们遍历这个列表并调用每个工人的 `work` 方法。

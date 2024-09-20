@@ -1,0 +1,87 @@
+开放封闭原则（Open/Closed Principle, OCP）要求软件实体（类、模块、函数等）应该对扩展开放，对修改封闭。以下是一个简单的 Java 示例，展示了如何使用开放封闭原则：
+
+首先，定义一个接口 `Shape`，它表示一个形状：
+
+```java
+// Shape.java
+public interface Shape {
+    double area();
+}
+```
+
+然后，定义两个实现 `Shape` 接口的类 `Circle` 和 `Rectangle`：
+
+```java
+// Circle.java
+public class Circle implements Shape {
+    private double radius;
+
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
+    @Override
+    public double area() {
+        return Math.PI * radius * radius;
+    }
+}
+```
+
+```java
+// Rectangle.java
+public class Rectangle implements Shape {
+    private double width;
+    private double height;
+
+    public Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    @Override
+    public double area() {
+        return width * height;
+    }
+}
+```
+
+最后，定义一个类 `AreaCalculator`，它可以计算任意形状的面积：
+
+```java
+// AreaCalculator.java
+import java.util.List;
+
+public class AreaCalculator {
+    public double totalArea(List<Shape> shapes) {
+        double total = 0;
+        for (Shape shape : shapes) {
+            total += shape.area();
+        }
+        return total;
+    }
+}
+```
+
+在这个示例中，`Shape` 接口对扩展开放（可以添加新的形状类），而 `AreaCalculator` 类对修改封闭（不需要修改它就能支持新的形状）。
+
+以下是如何使用这些类的示例：
+
+```java
+import java.util.Arrays;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        Shape circle = new Circle(5);
+        Shape rectangle = new Rectangle(4, 6);
+
+        List<Shape> shapes = Arrays.asList(circle, rectangle);
+        AreaCalculator calculator = new AreaCalculator();
+
+        double totalArea = calculator.totalArea(shapes);
+        System.out.println("Total Area: " + totalArea);
+    }
+}
+```
+
+在这个示例中，我们创建了 `Circle` 和 `Rectangle` 的实例，并将它们添加到一个 `List<Shape>` 中。然后，我们使用 `AreaCalculator` 计算这些形状的总面积并打印结果。

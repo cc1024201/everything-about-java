@@ -28,3 +28,17 @@ public class Person {
 ```
 
 在这个示例中，`name` 和 `age` 属性被声明为私有的（`private`），只能通过公共的（`public`）getter 和 setter 方法访问和修改。这就是封装的一个基本例子。
+
+最后，展示如何使用这个类：
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Person person = new Person();
+        person.setName("Alice");
+        person.setAge(30);
+
+        System.out.println(person.getName() + " is " + person.getAge() + " years old.");
+    }
+}
+```
