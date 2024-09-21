@@ -1,0 +1,133 @@
+`Collection` 是 Java 集合框架中的一个顶级接口，表示一组对象的集合。以下是一个简化的 `Collection` 接口设计和实现的示例：
+
+### 1. 定义 `Collection` 接口
+
+```java
+public interface Collection<E> extends Iterable<E> {
+    boolean add(E e);
+    boolean remove(Object o);
+    boolean contains(Object o);
+    int size();
+    boolean isEmpty();
+    void clear();
+}
+```
+
+### 2. 实现 `Collection` 接口的 `ArrayList` 类
+
+```java
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
+public class ArrayList<E> implements Collection<E> {
+    private Object[] elements;
+    private int size = 0;
+    private static final int DEFAULT_CAPACITY = 10;
+
+    public ArrayList() {
+        elements = new Object[DEFAULT_CAPACITY];
+    }
+
+    @Override
+    public boolean add(E e) {
+        if (size == elements.length) {
+            resize();
+        }
+        elements[size++] = e;
+        return true;
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        for (int i = 0; i < size; i++) {
+            if (elements[i].equals(o)) {
+                int numMoved = size - i - 1;
+                if (numMoved > 0) {
+                    System.arraycopy(elements, i + 1, elements, i, numMoved);
+                }
+                elements[--size] = null;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        for (int i = 0; i < size; i++) {
+            if (elements[i].equals(o)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int size() {
+        return size;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    @Override
+    public void clear() {
+        for (int i = 0; i < size; i++) {
+            elements[i] = null;
+        }
+        size = 0;
+    }
+
+    @Override
+    public Iterator<E> iterator() {
+        return new Iterator<E>() {
+            private int cursor = 0;
+
+            @Override
+            public boolean hasNext() {
+                return cursor < size;
+            }
+
+            @Override
+            public E next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                return (E) elements[cursor++];
+            }
+        };
+    }
+
+    private void resize() {
+        Object[] newElements = new Object[elements.length * 2];
+        System.arraycopy(elements, 0, newElements, 0, elements.length);
+        elements = newElements;
+    }
+}
+```
+
+### 3. 使用 `ArrayList` 类
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Collection<String> collection = new ArrayList<>();
+
+        collection.add("Apple");
+        collection.add("Banana");
+        collection.add("Orange");
+
+        for (String item : collection) {
+            System.out.println(item);
+        }
+
+        collection.remove("Banana");
+
+        System.out.println("Collection size: " + collection.size());
+    }
+}
+```
+
+在这个示例中，我们定义了一个 `Collection` 接口，并实现了一个简单的 `ArrayList` 类。这个 `ArrayList` 类支持基本的集合操作，如添加、删除、检查和遍历元素。
