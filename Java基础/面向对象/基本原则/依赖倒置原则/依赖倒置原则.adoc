@@ -1,0 +1,53 @@
+依赖倒置原则（Dependency Inversion Principle, DIP）要求高层模块不应该依赖低层模块，二者都应该依赖其抽象。以下是一个简单的 Java 示例，展示了如何使用依赖倒置原则：
+
+首先，定义一个接口 `MessageService`，它有一个方法 `sendMessage`：
+
+```java
+// MessageService.java
+public interface MessageService {
+    void sendMessage(String message);
+}
+```
+
+然后，定义一个实现 `MessageService` 接口的类 `EmailService`：
+
+```java
+// EmailService.java
+public class EmailService implements MessageService {
+    @Override
+    public void sendMessage(String message) {
+        System.out.println("Email message sent: " + message);
+    }
+}
+```
+
+再定义一个高层模块 `Notification`，它依赖于 `MessageService` 接口而不是具体的实现类：
+
+```java
+// Notification.java
+public class Notification {
+    private final MessageService messageService;
+
+    public Notification(MessageService messageService) {
+        this.messageService = messageService;
+    }
+
+    public void notify(String message) {
+        messageService.sendMessage(message);
+    }
+}
+```
+
+最后，展示如何使用这些类：
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        MessageService emailService = new EmailService();
+        Notification notification = new Notification(emailService);
+        notification.notify("Hello, Dependency Inversion Principle!");
+    }
+}
+```
+
+在这个示例中，`Notification` 类依赖于 `MessageService` 接口，而不是具体的 `EmailService` 实现类。这使得代码更灵活，可以轻松地替换不同的消息服务实现，而不需要修改 `Notification` 类。
